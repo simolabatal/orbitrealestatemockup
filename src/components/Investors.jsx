@@ -1,5 +1,6 @@
 import { TrendingUp, LineChart, ShieldCheck, Users, Globe, ArrowUpRight } from "lucide-react";
 import { Reveal, Eyebrow, CountUp, Button } from "./ui.jsx";
+import InvestmentSimulator from "./InvestmentSimulator.jsx";
 
 const YIELDS = [
   { zone: "Médina de Marrakech — Riads", yield: 7.2, growth: "+18 %", note: "sur 5 ans" },
@@ -76,6 +77,9 @@ export default function Investors({ onVisit, onNavigate }) {
           </div>
         </div>
       </section>
+
+      {/* Simulateur d'investissement */}
+      <InvestmentSimulator onVisit={onVisit} />
 
       {/* Rendements */}
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8">

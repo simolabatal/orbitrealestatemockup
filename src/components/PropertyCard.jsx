@@ -1,11 +1,13 @@
-import { MapPin, BedDouble, Bath, Ruler, ArrowUpRight } from "lucide-react";
-import { unsplash } from "../data.js";
-import { formatPrice } from "../lib.js";
+import { MapPin, BedDouble, Bath, Ruler, ArrowUpRight, Images } from "lucide-react";
+import { unsplash, STATUSES } from "../data.js";
+import { useCurrency } from "../CurrencyContext.jsx";
 import { Badge } from "./ui.jsx";
 
 export default function PropertyCard({ property, onOpen, index = 0 }) {
-  const { name, category, city, neighborhood, price, surface, bedrooms, bathrooms, badge, images } =
+  const { formatPrice } = useCurrency();
+  const { name, category, city, neighborhood, price, surface, bedrooms, bathrooms, status, images } =
     property;
+  const statusMeta = status ? STATUSES[status] : null;
 
   return (
     <article
@@ -23,11 +25,16 @@ export default function PropertyCard({ property, onOpen, index = 0 }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-        {badge && (
+        {statusMeta && (
           <div className="absolute left-4 top-4">
-            <Badge>{badge}</Badge>
+            <Badge tone={statusMeta.tone}>{statusMeta.label}</Badge>
           </div>
         )}
+
+        <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-black/35 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-md transition-colors duration-300 group-hover:bg-orbit-500">
+          <Images className="h-3.5 w-3.5" />
+          {images.length}
+        </span>
 
         <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
           <div>

@@ -14,6 +14,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { PROPERTIES, CONFIG } from "../data.js";
+import { useCurrency } from "../CurrencyContext.jsx";
 import {
   TIME_SLOTS,
   nextDays,
@@ -25,6 +26,7 @@ import {
 } from "../lib.js";
 
 export default function VisitModal({ initialPropertyId, onClose }) {
+  const { formatPrice } = useCurrency();
   const [step, setStep] = useState(0);
   const [type, setType] = useState(initialPropertyId ? "property" : "property");
   const [propertyId, setPropertyId] = useState(initialPropertyId || "");
@@ -251,6 +253,11 @@ export default function VisitModal({ initialPropertyId, onClose }) {
                   <Clock className="h-3.5 w-3.5 text-orbit-500" />
                   {date ? formatDayLabel(date) : ""} · {slot}
                 </p>
+                {type === "property" && property && (
+                  <p className="mt-2 border-t border-ink/5 pt-2 font-serif text-lg text-orbit-600">
+                    {formatPrice(property.price)}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-4">

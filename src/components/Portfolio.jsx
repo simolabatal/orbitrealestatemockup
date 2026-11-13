@@ -1,10 +1,20 @@
 import { useMemo } from "react";
 import { SlidersHorizontal, MapPin, Search } from "lucide-react";
 import { PROPERTIES, CATEGORIES, CITIES, BUDGETS } from "../data.js";
+import { useCurrency } from "../CurrencyContext.jsx";
 import PropertyCard from "./PropertyCard.jsx";
 import { Reveal, Eyebrow } from "./ui.jsx";
 
 export default function Portfolio({ filters, setFilters, onOpen, onVisit }) {
+  const { formatCompact } = useCurrency();
+
+  const budgetLabel = (b) => {
+    if (b.min === 0 && b.max === Infinity) return "Tout budget";
+    if (b.max === Infinity) return `Plus de ${formatCompact(b.min)}`;
+    if (b.min === 0) return `Moins de ${formatCompact(b.max)}`;
+    return `${formatCompact(b.min)} – ${formatCompact(b.max)}`;
+  };
+
   const results = useMemo(() => {
     return PROPERTIES.filter((p) => {
       const okCategory = filters.category === "Toutes" || p.category === filters.category;
@@ -87,7 +97,9 @@ export default function Portfolio({ filters, setFilters, onOpen, onVisit }) {
                 className="select-dark"
               >
                 {BUDGETS.map((b) => (
-                  <option key={b.label} value={b.label}>{b.label}</option>
+                  <option key={b.label} value={b.label}>
+                    {budgetLabel(b)}
+                  </option>
                 ))}
               </select>
             </SelectWrap>

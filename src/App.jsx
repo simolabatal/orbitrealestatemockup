@@ -22,8 +22,19 @@ export default function App() {
   const [visitOpen, setVisitOpen] = useState(false);
   const [visitPropertyId, setVisitPropertyId] = useState(null);
 
-  const navigate = useCallback((p) => {
+  const navigate = useCallback((p, anchor) => {
     setPage(p);
+    if (anchor) {
+      // Attend le rendu de la nouvelle page avant de défiler vers la section
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document
+            .getElementById(anchor)
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+      return;
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 

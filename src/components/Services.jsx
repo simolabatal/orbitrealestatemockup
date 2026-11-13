@@ -116,6 +116,40 @@ export default function Services({ onVisit, onNavigate }) {
         </div>
       </section>
 
+      {/* Accès au simulateur d'investissement */}
+      <section className="mx-auto max-w-7xl px-5 pt-24 sm:px-8">
+        <Reveal>
+          <div className="grid gap-8 rounded-[2.5rem] border border-ink/10 bg-white p-8 sm:p-12 lg:grid-cols-[1.35fr_1fr] lg:items-center">
+            <div>
+              <Eyebrow>Simulateur d'investissement</Eyebrow>
+              <h2 className="mt-4 max-w-xl font-serif text-3xl font-light leading-tight text-ink sm:text-4xl">
+                Combien rapporte réellement votre prochain actif&nbsp;?
+              </h2>
+              <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-ink/60">
+                Budget, rendement locatif, plus-value à 3 ans&nbsp;: projetez
+                votre retour sur investissement en temps réel, puis faites
+                valider vos hypothèses par nos analystes.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between rounded-2xl bg-sand-50 px-5 py-4">
+                <span className="text-sm font-medium text-ink/60">Rendement riads</span>
+                <span className="font-serif text-2xl text-orbit-600">7,2 %</span>
+              </div>
+              <div className="flex items-center justify-between rounded-2xl bg-sand-50 px-5 py-4">
+                <span className="text-sm font-medium text-ink/60">Plus-value 3 ans</span>
+                <span className="font-serif text-2xl text-ink">+ 14,1 %</span>
+              </div>
+              <Button onClick={() => onNavigate("investors", "simulateur")}>
+                Lancer le simulateur
+                <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
         <Reveal>

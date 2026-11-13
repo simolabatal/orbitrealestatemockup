@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Search, MapPin, ChevronDown, ArrowDown } from "lucide-react";
 import { CATEGORIES, CITIES, BUDGETS, unsplash } from "../data.js";
+import { useCurrency } from "../CurrencyContext.jsx";
 import { Reveal } from "./ui.jsx";
 
 const HERO_IMG = unsplash("1613490493576-7fde63acd811", 2000);
@@ -19,25 +20,36 @@ function FomoTicker() {
   useEffect(() => {
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % FOMO_MESSAGES.length);
-      setCount((c) => Math.max(1, c + Math.round(Math.random() * 2 - 0.5)));
+      setCount((c) => Math.min(9, Math.max(1, c + Math.round(Math.random() * 2 - 0.5))));
     }, 4200);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/10 px-5 py-2.5 backdrop-blur-md">
-      <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full rounded-full bg-orbit-500 animate-pulse-dot" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-orbit-500" />
-      </span>
-      <p className="text-[13px] font-medium text-white/90 sm:text-sm">
-        {FOMO_MESSAGES[index](count)}
+    <div className="flex flex-col items-center gap-2.5">
+      <div className="flex items-center justify-center gap-3 rounded-full border border-white/15 bg-black/25 px-4 py-2.5 backdrop-blur-md sm:px-5">
+        <span className="flex items-center gap-1.5 rounded-full bg-orbit-500/15 px-2 py-0.5">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-orbit-500 animate-pulse-dot" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-orbit-500" />
+          </span>
+          <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-orbit-400">
+            Live
+          </span>
+        </span>
+        <p key={index} className="fomo-swap text-[13px] font-medium text-white/90 sm:text-sm">
+          {FOMO_MESSAGES[index](count)}
+        </p>
+      </div>
+      <p className="text-[9px] font-semibold uppercase tracking-[0.26em] text-white/35 sm:text-[10px]">
+        Activité Orbit · mise à jour en continu
       </p>
     </div>
   );
 }
 
 export default function Hero({ onSearch }) {
+  const { formatCompact } = useCurrency();
   const [category, setCategory] = useState("Toutes");
   const [city, setCity] = useState("Toutes");
   const [budget, setBudget] = useState(BUDGETS[0]);
@@ -45,6 +57,13 @@ export default function Hero({ onSearch }) {
   const submit = (e) => {
     e.preventDefault();
     onSearch({ category, city, budget });
+  };
+
+  const budgetLabel = (b) => {
+    if (b.min === 0 && b.max === Infinity) return "Tout budget";
+    if (b.max === Infinity) return `Plus de ${formatCompact(b.min)}`;
+    if (b.min === 0) return `Moins de ${formatCompact(b.max)}`;
+    return `${formatCompact(b.min)} – ${formatCompact(b.max)}`;
   };
 
   return (
@@ -113,7 +132,9 @@ export default function Hero({ onSearch }) {
                 className="field-input"
               >
                 {BUDGETS.map((b) => (
-                  <option key={b.label} value={b.label}>{b.label}</option>
+                  <option key={b.label} value={b.label}>
+                    {budgetLabel(b)}
+                  </option>
                 ))}
               </select>
             </Field>

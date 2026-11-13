@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Logo, Button } from "./ui.jsx";
+import { useCurrency } from "../CurrencyContext.jsx";
 
 const LINKS = [
   { id: "home", label: "Accueil" },
@@ -9,6 +10,47 @@ const LINKS = [
   { id: "investors", label: "Investisseurs" },
   { id: "contact", label: "Contact" },
 ];
+
+function CurrencyToggle({ solid }) {
+  const { currency, setCurrency } = useCurrency();
+  const options = [
+    { code: "MAD", short: "MAD", title: "Dirham marocain (د.م.)" },
+    { code: "EUR", short: "EUR", title: "Euro (€)" },
+  ];
+
+  return (
+    <div
+      className={`flex items-center rounded-full border p-0.5 ${
+        solid ? "border-ink/15" : "border-white/25"
+      }`}
+      role="group"
+      aria-label="Sélecteur de devise"
+    >
+      {options.map((o) => {
+        const active = currency === o.code;
+        return (
+          <button
+            key={o.code}
+            onClick={() => setCurrency(o.code)}
+            title={o.title}
+            aria-pressed={active}
+            className={`rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide transition-all duration-300 ${
+              active
+                ? solid
+                  ? "bg-ink text-white"
+                  : "bg-white text-ink"
+                : solid
+                  ? "text-ink/55 hover:text-ink"
+                  : "text-white/60 hover:text-white"
+            }`}
+          >
+            {o.short}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function Navbar({ page, onNavigate, onVisit }) {
   const [scrolled, setScrolled] = useState(false);
@@ -65,9 +107,12 @@ export default function Navbar({ page, onNavigate, onVisit }) {
         </div>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <CurrencyToggle solid={solid} />
           <button
             onClick={onVisit}
-            className="group inline-flex items-center gap-2 rounded-full border border-current px-5 py-2.5 text-[13px] font-semibold tracking-wide transition-all duration-300 hover:bg-orbit-500 hover:border-orbit-500 hover:text-white"
+            className={`group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-[13px] font-semibold tracking-wide transition-all duration-300 hover:border-orbit-500 hover:bg-orbit-500 hover:text-white ${
+              solid ? "border-ink/20 text-ink" : "border-white/40 text-white"
+            }`}
           >
             Visite privée
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -78,7 +123,11 @@ export default function Navbar({ page, onNavigate, onVisit }) {
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label="Menu"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 text-ink lg:hidden"
+          className={`flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur transition-colors duration-300 lg:hidden ${
+            solid
+              ? "border-ink/10 bg-white/70 text-ink"
+              : "border-white/25 bg-black/20 text-white"
+          }`}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -87,7 +136,7 @@ export default function Navbar({ page, onNavigate, onVisit }) {
       {/* Mobile drawer */}
       <div
         className={`overflow-hidden transition-[max-height] duration-500 ease-in-out lg:hidden ${
-          open ? "max-h-[420px]" : "max-h-0"
+          open ? "max-h-[460px]" : "max-h-0"
         }`}
       >
         <div className="border-t border-ink/5 bg-offwhite px-5 py-4">
@@ -102,6 +151,12 @@ export default function Navbar({ page, onNavigate, onVisit }) {
               {l.label}
             </button>
           ))}
+          <div className="mt-2 flex items-center justify-between px-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink/40">
+              Devise
+            </span>
+            <CurrencyToggle solid />
+          </div>
           <div className="mt-2 px-2">
             <Button onClick={() => { setOpen(false); onVisit(); }} className="w-full">
               Réserver une visite privée

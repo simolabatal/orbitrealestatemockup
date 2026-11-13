@@ -2,6 +2,7 @@ import { ArrowUpRight, Building2, HardHat, KeyRound, Wallet, Sparkles } from "lu
 import { PROPERTIES, AGENCY_STATS, unsplash } from "../data.js";
 import Hero from "./Hero.jsx";
 import PropertyCard from "./PropertyCard.jsx";
+import InvestmentSimulator from "./InvestmentSimulator.jsx";
 import { Reveal, Eyebrow, CountUp, Button } from "./ui.jsx";
 
 const FEATURED_IDS = ["villa-maison-des-oliviers", "riad-zellige", "penthouse-sky-atlas"];
@@ -61,6 +62,9 @@ export default function Home({ onSearch, onNavigate, onOpen, onVisit }) {
           ))}
         </div>
       </section>
+
+      {/* Simulateur d'investissement */}
+      <InvestmentSimulator onVisit={() => onVisit()} />
 
       {/* Piliers preview */}
       <section className="bg-sand-50">

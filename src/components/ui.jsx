@@ -91,10 +91,11 @@ export function Eyebrow({ children, light = false }) {
 /** Badge de statut (Exclusivité / Signature / Nouveauté) */
 export function Badge({ children, tone = "orbit", className = "" }) {
   const tones = {
-    orbit: "bg-orbit-500 text-white",
-    sand: "bg-sand-200 text-wood-700",
-    dark: "bg-wood-700 text-sand-100",
-    outline: "border border-orbit-500 text-orbit-600",
+    orbit: "bg-orbit-500 text-white shadow-[0_6px_18px_-6px_rgba(255,85,0,0.8)]",
+    sand: "bg-sand-200/95 text-wood-700 backdrop-blur-sm",
+    dark: "bg-wood-700/95 text-sand-100 backdrop-blur-sm",
+    outline: "border border-orbit-500 bg-white/90 text-orbit-600 backdrop-blur-sm",
+    light: "bg-white/95 text-ink backdrop-blur-sm",
   };
   return (
     <span
