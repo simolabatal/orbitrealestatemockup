@@ -36,9 +36,9 @@ export const CONFIG = {
   brand: "Orbit",
   legal: "Orbit Real Estate SARL",
   slogan: "L'immobilier d'exception. De la vision à la clé.",
-  phoneDisplay: "+212 6 61 23 45 67",
-  phoneRaw: "+212661234567",
-  whatsappNumber: "212661234567",
+  phoneDisplay: "+212 6 20 35 17 25",
+  phoneRaw: "+212620351725",
+  whatsappNumber: "212620351725",
   email: "contact@orbit-realestate.ma",
   address: "24 Avenue Mohammed VI, Hivernage, 40000 Marrakech",
   addresses: [

@@ -10,7 +10,7 @@ import {
   ArrowUpRight,
   TrendingUp,
 } from "lucide-react";
-import { unsplash } from "../data.js";
+import { unsplash, CONFIG } from "../data.js";
 import { formatPrice } from "../lib.js";
 import { Badge, Button } from "./ui.jsx";
 
@@ -154,7 +154,7 @@ export default function PropertyModal({ property, onClose, onVisit }) {
                 </Button>
                 <Button
                   variant="outline"
-                  href={`https://wa.me/212661234567?text=${encodeURIComponent(
+                  href={`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(
                     `Bonjour Orbit, je souhaite en savoir plus sur « ${property.name} » (${property.neighborhood}, ${property.city}).`,
                   )}`}
                   target="_blank"
